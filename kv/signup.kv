@@ -1,0 +1,131 @@
+
+<SignUp>:
+    name: 'Sign Up Screen'
+    canvas.before:
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            source: 'images/background-4.jpg'
+
+    FloatLayout:
+
+        ImageButton:
+            source: 'images/back-icon.png'
+            size_hint: 0.045, 0.08
+            pos_hint: {"x":0, "top": 1}
+            on_release: root.manager.current = "Launch Screen"
+        
+        Image:
+            source: 'images/icon-patient-4.png'
+            size: 100, 100
+            pos_hint: {'center_x': 0.5, 'center_y': 0.89}
+
+        MDTextField:
+            id: name_newUser
+            hint_text: 'Name'
+            size_hint: 0.3, 0.1
+            multiline: False
+            pos_hint: {'center_x': 0.5, 'center_y': 0.75}
+            font_size: 0.3*self.height
+            required: True
+            helper_text_mode: "on_error"
+            
+        GridLayout:
+            cols: 2
+            spacing: '8dp'
+            size_hint: .3, None
+            pos_hint: {'center_x': 0.5, 'center_y': 0.65}
+            height: self.minimum_height
+            ToggleButton:
+                id: male_button
+                size_hint_y: None
+                status: False
+                on_press: root.gender = 'Male'
+                on_release: self.status = not(self.status)
+                height: '30dp'
+                text: 'Male'
+                group: 'g1'
+            ToggleButton:
+                id: female_button
+                size_hint_y: None
+                status: False
+                on_press: root.gender = 'Female'
+                on_release: self.status = not(self.status)
+                height: '30dp'
+                text: 'Female'
+                group: 'g1'
+
+        Label:
+            id: gender_error
+            text: ''
+            color: [0.86,0.078, 0.235,0.8]
+            pos_hint: {'center_x': 0.5, 'center_y': 0.60}
+            size_hint: 0.2, 0.06
+            font_size: 0.37*self.height
+
+        MDTextField:
+            id: dob_newUser
+            hint_text: 'Date of Birth'
+            size_hint: 0.3, 0.1
+            multiline: False
+            pos_hint: {'center_x': 0.5, 'center_y': 0.55}
+            font_size: 0.3*self.height
+            required: True
+            helper_text_mode: "on_error"
+
+        MDTextField:
+            id: pin_newUser
+            hint_text: 'PIN'
+            allow_copy: False
+            size_hint: 0.3, 0.1
+            password: True
+            multiline: False
+            pos_hint: {'center_x': 0.5, 'center_y': 0.45}
+            font_size: 0.3*self.height
+            required: True
+            helper_text_mode: "on_error"
+        
+        MDTextField:
+            id: contact_newUser
+            hint_text: 'Emergency Contact'
+            allow_copy: False
+            size_hint: 0.3, 0.1
+            multiline: False
+            pos_hint: {'center_x': 0.5, 'center_y': 0.35}
+            font_size: 0.3*self.height
+            required: True
+            helper_text_mode: "on_error"  
+            color_mode: 'primary'
+
+        MDTextField:
+            id: nurse_newUser
+            hint_text: 'Nurse'
+            allow_copy: False
+            size_hint: 0.3, 0.1   
+            multiline: False
+            pos_hint: {'center_x': 0.5, 'center_y': 0.25}
+            font_size: 0.3*self.height
+            required: True
+            helper_text_mode: "on_error"
+
+        MDRaisedButton:
+            text: 'Join'
+            size_hint: 0.2, 0.070  
+            pos_hint: {'center_x': 0.5, 'center_y': 0.10}  
+            font_size: 0.4*self.height
+            background_color: [0.466,0.705,0.976, 0.8]
+            color: (1,1,1,1)
+            on_press: root.sendFormData(name_newUser.text, nurse_newUser.text, dob_newUser.text, pin_newUser.text, male_button, female_button, contact_newUser.text)
+            on_release:
+                name_newUser.helper_text_mode = 'persistent' 
+                nurse_newUser.helper_text_mode = 'persistent'
+                dob_newUser.helper_text_mode = 'persistent'
+                pin_newUser.helper_text_mode = 'persistent'
+                contact_newUser.helper_text_mode = 'persistent'
+                if(root.dobE == 1): dob_newUser.helper_text = "Date must be in dd/mm/yyyy format."
+                elif(dob_newUser.text == ''): dob_newUser.helper_text = 'This field is required.'
+                elif(root.dobE == 0): dob_newUser.helper_text = '.'
+                if(root.genderE == 2): gender_error.text = "You must choose one choice."
+                if(male_button.status == True or female_button.status == True): gender_error.text = ''
+
+                

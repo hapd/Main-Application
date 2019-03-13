@@ -1,0 +1,18 @@
+#:import FadeTransition kivy.uix.screenmanager.FadeTransition
+#:import MDTextField kivymd.textfields.MDTextField
+#:import MDRaisedButton kivymd.button.MDRaisedButton
+#:import MDFlatButton kivymd.button.MDFlatButton
+#:import MDIconButton kivymd.button.MDIconButton
+#:import BaseRoundButton kivymd.button.BaseRoundButton
+Manager:
+    transition: FadeTransition()
+    Launch:
+    SignUp:
+    LogIn:
+
+<ImageButton@ButtonBehavior+Image>:
+
+#:include kv/launch.kv
+#:include kv/signup.kv
+#:include kv/login.kv
+
