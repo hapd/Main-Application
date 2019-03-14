@@ -113,8 +113,6 @@
             size_hint: 0.2, 0.070  
             pos_hint: {'center_x': 0.5, 'center_y': 0.10}  
             font_size: 0.4*self.height
-            background_color: [0.466,0.705,0.976, 0.8]
-            color: (1,1,1,1)
             on_press: root.sendFormData(name_newUser.text, nurse_newUser.text, dob_newUser.text, pin_newUser.text, male_button, female_button, contact_newUser.text)
             on_release:
                 name_newUser.helper_text_mode = 'persistent' 

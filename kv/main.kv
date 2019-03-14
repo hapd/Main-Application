@@ -3,16 +3,19 @@
 #:import MDRaisedButton kivymd.button.MDRaisedButton
 #:import MDFlatButton kivymd.button.MDFlatButton
 #:import MDIconButton kivymd.button.MDIconButton
+#:import MDLabel kivymd.label.MDLabel
 
 Manager:
     transition: FadeTransition()
     Launch:
     SignUp:
     LogIn:
+    Home:
 
 <ImageButton@ButtonBehavior+Image>:
 
 #:include kv/launch.kv
 #:include kv/signup.kv
 #:include kv/login.kv
+#:include kv/home.kv
 

@@ -25,7 +25,7 @@ from kivymd.bottomsheet import MDListBottomSheet
 from functions.func import validateSignUpForm, sendDataToAPI
 
 # Global Variables
-url = 'https://jolly-rabbit-50.localtunnel.me'
+url = 'https://jolly-catfish-94.localtunnel.me'
 
 # Class for Launch Screen
 class Launch(Screen):
@@ -57,13 +57,26 @@ class SignUp(Screen):
             "contact": contact 
         }
         if(self.status == 1):
-            r = sendDataToAPI(self, data, url, '/addUser')
+            r = sendDataToAPI(data, url, '/addUser')
             self.pid = r['PID']
             
         
             
 # Class for Log In Screen
 class LogIn(Screen):
+    def __init__(self, **kwargs):
+        super(LogIn, self).__init__(**kwargs)
+
+    def authenticateUser(self, pid, pin):
+        data = {'pId': pid, 'pin': pin}
+        r = sendDataToAPI(data, url, '/checkLogin')
+        if(r["fullfilmentText"] == "True"):
+            return True
+        else:
+            return False
+
+# Class for the Home Screen
+class Home(Screen):
     pass
 
 # Class for the Screen Manager

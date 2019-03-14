@@ -1,6 +1,7 @@
 import datetime, json, requests
 
-def sendDataToAPI(self, data, url, method):
+# Universal function for sending any data (in dict format) to the API
+def sendDataToAPI(data, url, method):
     data = json.dumps(data)
     headers = {'Authorization' : '', 'Accept' : 'application/json', 'Content-Type' : 'application/json'}
     try:
@@ -11,13 +12,7 @@ def sendDataToAPI(self, data, url, method):
         print("Couldn't send to webhook")
 
 
-
-
-
-
-
-
-
+# Function to validate the Sign Up Form
 def validateSignUpForm(self, name, nurse, dob, pin, mB, fB, contact):
     # Checking if any of the gender is selected
     if(mB.status == False and fB.status == False):
@@ -68,6 +63,8 @@ def validateSignUpForm(self, name, nurse, dob, pin, mB, fB, contact):
     # Success code for nurse
     if(str(nurse) != '' and str(nurse).isnumeric() == False):
         self.nurseE = 200
+
+
 
      
     
