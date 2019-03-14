@@ -9,12 +9,12 @@
 
     FloatLayout:
 
-        ImageButton:
-            source: 'images/back-icon.png'
-            size_hint: 0.045, 0.08
+        MDIconButton:
+            icon: 'arrow-left'
             pos_hint: {"x":0, "top": 1}
+            size_hint: 0.06, 0.1
             on_release: root.manager.current = "Launch Screen"
-        
+
         Image:
             source: 'images/icon-patient-4.png'
             size: 100, 100
@@ -58,7 +58,7 @@
         Label:
             id: gender_error
             text: ''
-            color: [0.86,0.078, 0.235,0.8]
+            color: [0,0,0,0.4]
             pos_hint: {'center_x': 0.5, 'center_y': 0.60}
             size_hint: 0.2, 0.06
             font_size: 0.37*self.height
@@ -68,7 +68,7 @@
             hint_text: 'Date of Birth'
             size_hint: 0.3, 0.1
             multiline: False
-            pos_hint: {'center_x': 0.5, 'center_y': 0.55}
+            pos_hint: {'center_x': 0.5, 'center_y': 0.53}
             font_size: 0.3*self.height
             required: True
             helper_text_mode: "on_error"
@@ -80,7 +80,7 @@
             size_hint: 0.3, 0.1
             password: True
             multiline: False
-            pos_hint: {'center_x': 0.5, 'center_y': 0.45}
+            pos_hint: {'center_x': 0.5, 'center_y': 0.42}
             font_size: 0.3*self.height
             required: True
             helper_text_mode: "on_error"
@@ -91,7 +91,7 @@
             allow_copy: False
             size_hint: 0.3, 0.1
             multiline: False
-            pos_hint: {'center_x': 0.5, 'center_y': 0.35}
+            pos_hint: {'center_x': 0.5, 'center_y': 0.31}
             font_size: 0.3*self.height
             required: True
             helper_text_mode: "on_error"  
@@ -103,7 +103,7 @@
             allow_copy: False
             size_hint: 0.3, 0.1   
             multiline: False
-            pos_hint: {'center_x': 0.5, 'center_y': 0.25}
+            pos_hint: {'center_x': 0.5, 'center_y': 0.20}
             font_size: 0.3*self.height
             required: True
             helper_text_mode: "on_error"
@@ -124,8 +124,16 @@
                 contact_newUser.helper_text_mode = 'persistent'
                 if(root.dobE == 1): dob_newUser.helper_text = "Date must be in dd/mm/yyyy format."
                 elif(dob_newUser.text == ''): dob_newUser.helper_text = 'This field is required.'
-                elif(root.dobE == 0): dob_newUser.helper_text = '.'
+                elif(root.dobE == 200): dob_newUser.helper_text = ' '
                 if(root.genderE == 2): gender_error.text = "You must choose one choice."
                 if(male_button.status == True or female_button.status == True): gender_error.text = ''
+                if(root.pinE == 1): pin_newUser.helper_text = 'Pin must be of 4 digits.'
+                elif(root.pinE == 200): pin_newUser.helper_text = ' '
+                if(root.contactE == 1): contact_newUser.helper_text = "Contact number must contain 10 digits."
+                elif(root.contactE == 2):  contact_newUser.helper_text = 'Contact number must have values from 0-9.'
+                elif(root.contactE == 200): contact_newUser.helper_text = ' '
+                if(root.nurseE == 200): nurse_newUser.helper_text = ' '
+                if(root.nameE == 200): name_newUser.helper_text = ' '
+                if(root.status == 1): app.show_example_bottom_sheet(root.pid)
 
                 
