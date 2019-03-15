@@ -1,4 +1,27 @@
 <Home>:
     name: 'Home Screen'
-    MDLabel:
-        text: 'You have reached on the Home Screen'
+    on_enter: root.fetchPersonalInformation(app.root.ids.LogIn.fetchPid())
+    canvas.before:
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            source: 'images/background-4.jpg'
+    GridLayout:
+        cols: 2
+        Button:
+            text: "Who am I?" + root.name
+            #background_color: (0.603,0.78,0.909,1)
+            background_normal: 'images/whoami.png'
+            on_release: app.root.current = 'Who Am I Screen'
+        Button:
+            text: "Who are they?"
+            background_color: (0.603,0.78,0.909,1)
+        Button:
+            text: "Today's Schedule"
+            background_color: (0.603,0.78,0.909,1)
+        Button:
+            text: "Help"
+            background_color: (0.603,0.78,0.909,1)
+        Button:
+            text: "Sign out"
+            background_color: (0.603,0.78,0.909,1)

@@ -14,6 +14,15 @@
             size_hint: 0.06, 0.1
             on_release: root.manager.current = "Launch Screen"
 
+        Toolbar:
+            title: " "
+            pos_hint: {'top': 1, 'x': 0}
+            md_bg_color: get_color_from_hex(colors['DeepPurple']['A400'])
+            background_palette: 'DeepPurple'
+            background_hue: 'A400'
+            left_action_items: [['arrow-left', lambda x: app.setCurrentScreen(app.root, 'Launch Screen')]]
+
+
         Image:
             source: 'images/icon-patient-2.png'
             size: 128, 128
@@ -22,7 +31,7 @@
         Label:
             text: 'Log In'
             color: [0.65,0.65,0.65,1]
-            pos_hint: {'center_x': 0.5, 'center_y': 0.6}
+            pos_hint: {'center_x': 0.5, 'center_y': 0.65}
             font_size: 0.5*self.height
             size_hint: 0.3, 0.1
 
@@ -30,27 +39,27 @@
             id: pId
             multiline: False
             hint_text: 'Patient ID'
-            size_hint: 0.3, 0.1
+            size_hint: 0.5, 0.1
             pos_hint: {'center_x': 0.5, 'center_y': 0.48}
             font_size: 0.37*self.height
-            border: (3,3,3,3)
             allow_copy: False
+            required: True
 
         MDTextField:
             id: pin
             multiline: False
             password: True
-            max_text_length: 4
+            #max_text_length: 4
             hint_text: 'PIN'
-            size_hint: 0.3, 0.1
+            size_hint: 0.5, 0.1
             pos_hint: {'center_x': 0.5, 'center_y': 0.37}
             font_size: 0.37*self.height
             allow_copy: False
-            border: (3,3,3,3)
+            required: True
 
         MDLabel:
             id: login_error
-            text: ''
+            text: ' '
             pos_hint: {'center_x': 0.5, 'center_y': 0.30}
             size_hint: 0.2, 0.06
             font_size: 0.37*self.height
@@ -59,9 +68,9 @@
 
         MDRaisedButton:
             text: 'Log In'
-            size_hint: 0.3, 0.1
-            pos_hint: {'center_x': 0.5, 'center_y': 0.23}
+            size_hint: 0.3, 0.06
+            pos_hint: {'center_x': 0.5, 'center_y': 0.20}
             font_size: 0.1*self.height
             on_release:
-                if(root.authenticateUser(pId.text, pin.text) == True): app.root.current = 'Home Screen'
+                if(root.authenticateUser(pId.text, pin.text)[0] == True): app.root.current = 'Home Screen'
                 else: login_error.text = 'Incorrent Patient ID or PIN'

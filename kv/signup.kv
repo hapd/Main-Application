@@ -1,4 +1,3 @@
-
 <SignUp>:
     name: 'Sign Up Screen'
     canvas.before:
@@ -9,23 +8,25 @@
 
     FloatLayout:
 
-        MDIconButton:
-            icon: 'arrow-left'
-            pos_hint: {"x":0, "top": 1}
-            size_hint: 0.06, 0.1
-            on_release: root.manager.current = "Launch Screen"
+        Toolbar:
+            title: " "
+            pos_hint: {'top': 1, 'x': 0}
+            md_bg_color: get_color_from_hex(colors['DeepPurple']['A400'])
+            background_palette: 'DeepPurple'
+            background_hue: 'A400'
+            left_action_items: [['arrow-left', lambda x: app.setCurrentScreen(app.root, 'Launch Screen')]]
 
         Image:
             source: 'images/icon-patient-4.png'
             size: 100, 100
-            pos_hint: {'center_x': 0.5, 'center_y': 0.89}
+            pos_hint: {'center_x': 0.5, 'center_y': 0.82}
 
         MDTextField:
             id: name_newUser
             hint_text: 'Name'
-            size_hint: 0.3, 0.1
+            size_hint: 0.5, 0.1
             multiline: False
-            pos_hint: {'center_x': 0.5, 'center_y': 0.75}
+            pos_hint: {'center_x': 0.5, 'center_y': 0.71}
             font_size: 0.3*self.height
             required: True
             helper_text_mode: "on_error"
@@ -33,8 +34,8 @@
         GridLayout:
             cols: 2
             spacing: '8dp'
-            size_hint: .3, None
-            pos_hint: {'center_x': 0.5, 'center_y': 0.65}
+            size_hint: .5, None
+            pos_hint: {'center_x': 0.5, 'center_y': 0.60}
             height: self.minimum_height
             ToggleButton:
                 id: male_button
@@ -59,16 +60,16 @@
             id: gender_error
             text: ''
             color: [0,0,0,0.4]
-            pos_hint: {'center_x': 0.5, 'center_y': 0.60}
+            pos_hint: {'center_x': 0.5, 'center_y': 0.55}
             size_hint: 0.2, 0.06
             font_size: 0.37*self.height
 
         MDTextField:
             id: dob_newUser
             hint_text: 'Date of Birth'
-            size_hint: 0.3, 0.1
+            size_hint: 0.5, 0.1
             multiline: False
-            pos_hint: {'center_x': 0.5, 'center_y': 0.53}
+            pos_hint: {'center_x': 0.5, 'center_y': 0.48}
             font_size: 0.3*self.height
             required: True
             helper_text_mode: "on_error"
@@ -77,10 +78,10 @@
             id: pin_newUser
             hint_text: 'PIN'
             allow_copy: False
-            size_hint: 0.3, 0.1
+            size_hint: 0.5, 0.1
             password: True
             multiline: False
-            pos_hint: {'center_x': 0.5, 'center_y': 0.42}
+            pos_hint: {'center_x': 0.5, 'center_y': 0.37}
             font_size: 0.3*self.height
             required: True
             helper_text_mode: "on_error"
@@ -89,9 +90,9 @@
             id: contact_newUser
             hint_text: 'Emergency Contact'
             allow_copy: False
-            size_hint: 0.3, 0.1
+            size_hint: 0.5, 0.1
             multiline: False
-            pos_hint: {'center_x': 0.5, 'center_y': 0.31}
+            pos_hint: {'center_x': 0.5, 'center_y': 0.26}
             font_size: 0.3*self.height
             required: True
             helper_text_mode: "on_error"  
@@ -101,17 +102,17 @@
             id: nurse_newUser
             hint_text: 'Nurse'
             allow_copy: False
-            size_hint: 0.3, 0.1   
+            size_hint: 0.5, 0.1   
             multiline: False
-            pos_hint: {'center_x': 0.5, 'center_y': 0.20}
+            pos_hint: {'center_x': 0.5, 'center_y': 0.15}
             font_size: 0.3*self.height
             required: True
             helper_text_mode: "on_error"
 
         MDRaisedButton:
             text: 'Join'
-            size_hint: 0.2, 0.070  
-            pos_hint: {'center_x': 0.5, 'center_y': 0.10}  
+            size_hint: 0.2, 0.05  
+            pos_hint: {'center_x': 0.5, 'center_y': 0.05}  
             font_size: 0.4*self.height
             on_press: root.sendFormData(name_newUser.text, nurse_newUser.text, dob_newUser.text, pin_newUser.text, male_button, female_button, contact_newUser.text)
             on_release:

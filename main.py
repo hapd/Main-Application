@@ -12,26 +12,30 @@ import datetime
 import kivy
 from kivy.app import App
 from kivy.uix.label import Label
+from kivy.core.window import Window
+Window.size = (480, 800)
 from kivy.uix.screenmanager import Screen, ScreenManager, FadeTransition
 from kivy.lang import Builder
 from kivy.uix.textinput import TextInput
-from kivy.properties import StringProperty, ObjectProperty
 from kivy.config import Config
+Config.set('graphics', 'resizable', False)
 from kivymd.theming import ThemeManager
 from kivymd.bottomsheet import MDListBottomSheet
-
 
 # Local package imports
 from functions.func import validateSignUpForm, sendDataToAPI
 
 # Global Variables
-url = 'https://jolly-catfish-94.localtunnel.me'
+url = 'https://hapd-api.herokuapp.com'
+
+
+
 
 # Class for Launch Screen
 class Launch(Screen):
     def __init__(self, **kwargs):
         super(Launch, self).__init__(**kwargs)
-        with open('data.json') as f:
+        with open('data/data.json') as f:
             data = json.load(f)
         self.quote = str(data["quotes"][str(random.randint(1,5))])
    
@@ -66,25 +70,52 @@ class SignUp(Screen):
 class LogIn(Screen):
     def __init__(self, **kwargs):
         super(LogIn, self).__init__(**kwargs)
+        self.pid = 0
 
+    def fetchPid(self):
+        return self.pid
+    
     def authenticateUser(self, pid, pin):
         data = {'pId': pid, 'pin': pin}
         r = sendDataToAPI(data, url, '/checkLogin')
         if(r["fullfilmentText"] == "True"):
-            return True
+            self.pid = pid
+            return (True, pid)
         else:
-            return False
+            return (False, None)
 
 # Class for the Home Screen
 class Home(Screen):
-    pass
+    def __init__(self, **kwargs):
+        super(Home, self).__init__(**kwargs)
+
+    def fetchPersonalInformation(self, pid):
+        with open('data/p_information.json', 'r') as p:
+            data = json.load(p)
+        if(data.get(pid) == None):
+            data = {'pId': pid}
+            r = sendDataToAPI(data, url, '/whoAmI')
+            information = r["data"]
+            data[pid] = information
+            with open('p_information.json','w') as p:
+                json.dump(data, p)
+            
+
+
+class WhoAmI(Screen):
+    def __init__(self, **kwargs):
+        super(WhoAmI, self).__init__(**kwargs)
+        self.information = {}
+    def fetchPersonalInformation(self, pid):
+        with open('data/p_information.json', 'r') as p:
+            data = json.load(p)
+        self.information = data.get(pid)
 
 # Class for the Screen Manager
 class Manager(ScreenManager):
     pass
-
-def callback():
-    Manager().current = 'Log In Screen'
+    
+  
 
 # Class for the main application
 class Main(App):
@@ -92,7 +123,9 @@ class Main(App):
     def build(self):
         return Builder.load_file('kv/main.kv')
 
-    
+    def setCurrentScreen(self, manager, s):
+        manager.current = s
+
     def show_example_bottom_sheet(self, pid):
         bs = MDListBottomSheet()
         bs.add_item("Your Patient ID is %s."%(pid), lambda x: x)

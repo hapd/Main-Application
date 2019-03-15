@@ -18,7 +18,7 @@
             size_hint: 0.3, 0.1
         MDRaisedButton:
             on_release: app.root.current = 'Sign Up Screen'
-            size_hint: 0.3, 0.1
+            size_hint: 0.5, 0.06
             pos_hint: {'center_x': 0.5, 'center_y': 0.4}
             text: 'New User'
             font_size: 0.4*self.height
@@ -26,14 +26,22 @@
 
         MDRaisedButton:
             on_release: app.root.current = 'Log In Screen'
-            size_hint: 0.3, 0.1
+            size_hint: 0.5, 0.06
             pos_hint: {'center_x': 0.5, 'center_y': 0.2}
             text: 'Exisiting User'
             font_size: 0.4*self.height
             background_color: (1,0.866,0.066,0.25)
         
+        # For the purpose to bypass authentication to reach home screen (for testing only)
+        MDIconButton:
+            on_release: app.root.current = 'Home Screen'
+            icon: 'login'
+            size_hint: 0.2, 0.1
+            pos_hint: {'center_x': 0.2, 'center_y': 0.2}
+
         Label:
             text: "'"+root.quote+"'"
             pos_hint: {'center_x': 0.5, 'center_y': 0.075}
             font_size: 0.2*self.height
             size_hint: 0.3, 0.1
+            color: [1,1,1,0.8]

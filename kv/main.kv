@@ -4,13 +4,19 @@
 #:import MDFlatButton kivymd.button.MDFlatButton
 #:import MDIconButton kivymd.button.MDIconButton
 #:import MDLabel kivymd.label.MDLabel
-
+#:import Toolbar kivymd.toolbar.Toolbar
+#:import MDNavigationDrawer kivymd.navigationdrawer.MDNavigationDrawer
+#:import NavigationDrawerSubheader kivymd.navigationdrawer.NavigationDrawerSubheader
+#:import MDCard kivymd.card.MDCard
 Manager:
     transition: FadeTransition()
     Launch:
     SignUp:
     LogIn:
+        id: LogIn
     Home:
+        id: Home
+    WhoAmI:
 
 <ImageButton@ButtonBehavior+Image>:
 
@@ -18,4 +24,5 @@ Manager:
 #:include kv/signup.kv
 #:include kv/login.kv
 #:include kv/home.kv
+#:include kv/whoami.kv
 
