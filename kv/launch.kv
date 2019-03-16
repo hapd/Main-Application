@@ -32,12 +32,6 @@
             font_size: 0.4*self.height
             background_color: (1,0.866,0.066,0.25)
         
-        # For the purpose to bypass authentication to reach home screen (for testing only)
-        MDIconButton:
-            on_release: app.root.current = 'Home Screen'
-            icon: 'login'
-            size_hint: 0.2, 0.1
-            pos_hint: {'center_x': 0.2, 'center_y': 0.2}
 
         Label:
             text: "'"+root.quote+"'"

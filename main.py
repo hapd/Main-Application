@@ -27,6 +27,9 @@ from functions.func import validateSignUpForm, sendDataToAPI
 
 # Global Variables
 url = 'https://hapd-api.herokuapp.com'
+name = ''
+age = ''
+dob = ''
 
 
 
@@ -90,27 +93,38 @@ class Home(Screen):
         super(Home, self).__init__(**kwargs)
 
     def fetchPersonalInformation(self, pid):
+        print(pid)
         with open('data/p_information.json', 'r') as p:
-            data = json.load(p)
-        if(data.get(pid) == None):
-            data = {'pId': pid}
-            r = sendDataToAPI(data, url, '/whoAmI')
-            information = r["data"]
-            data[pid] = information
-            with open('p_information.json','w') as p:
-                json.dump(data, p)
-            
+            f = json.load(p)
+        if(pid != f["current"]["pid"]):
+            d = {'pId': pid}
+            r = sendDataToAPI(d, url, '/whoAmI')
+            info = r["data"]
+            info["pid"] = pid
+            data = {}
+            data["current"] = info
+            with open('data/p_information.json','w') as p:
+                json.dump(data, p, indent=4)
+       
 
+        
+            
 
 class WhoAmI(Screen):
     def __init__(self, **kwargs):
         super(WhoAmI, self).__init__(**kwargs)
-        self.information = {}
-    def fetchPersonalInformation(self, pid):
-        with open('data/p_information.json', 'r') as p:
-            data = json.load(p)
-        self.information = data.get(pid)
+    
+    def setFields(self, na, age, dob):
+        with open("data/p_information.json") as f:
+            data = json.load(f)
+        print(data["current"]["name"])
+        na.text = "Name: " + str(data["current"]["name"]).capitalize()
+        age.text = "Age: " + str(data["current"]["age"])
+        dob.text = "Date of Birth: " + str(data["current"]["dob"])
+        
+        
 
+        
 # Class for the Screen Manager
 class Manager(ScreenManager):
     pass
@@ -122,10 +136,8 @@ class Main(App):
     theme_cls = ThemeManager()  # without this you'll get an error
     def build(self):
         return Builder.load_file('kv/main.kv')
-
     def setCurrentScreen(self, manager, s):
         manager.current = s
-
     def show_example_bottom_sheet(self, pid):
         bs = MDListBottomSheet()
         bs.add_item("Your Patient ID is %s."%(pid), lambda x: x)
@@ -138,4 +150,3 @@ class Main(App):
 
 if __name__ == '__main__':
     Main().run()
-
