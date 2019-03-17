@@ -4,7 +4,7 @@
         Rectangle:
             pos: self.pos
             size: self.size
-            source: 'images/background-3.jpg'
+            source: 'images/background-4.jpg'
     FloatLayout:
         Image:
             source: 'images/logo-250.png'
@@ -27,15 +27,17 @@
         MDRaisedButton:
             on_release: app.root.current = 'Log In Screen'
             size_hint: 0.5, 0.06
-            pos_hint: {'center_x': 0.5, 'center_y': 0.2}
+            pos_hint: {'center_x': 0.5, 'center_y': 0.3}
             text: 'Exisiting User'
             font_size: 0.4*self.height
             background_color: (1,0.866,0.066,0.25)
         
 
         Label:
-            text: "'"+root.quote+"'"
-            pos_hint: {'center_x': 0.5, 'center_y': 0.075}
-            font_size: 0.2*self.height
+            markup: True
+            text: "[b]"+"'"+root.quote+"'"+"[/b]"
+            pos_hint: {'center_x': 0.5, 'center_y': 0.1}
+            font_size: 0.19*self.height
             size_hint: 0.3, 0.1
-            color: [1,1,1,0.8]
+            halign: "center"
+            color: [0.172,0.545,0.662,1]

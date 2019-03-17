@@ -12,6 +12,7 @@ import datetime
 import kivy
 from kivy.app import App
 from kivy.uix.label import Label
+from kivy.uix.button import Button
 from kivy.core.window import Window
 Window.size = (480, 800)
 from kivy.uix.screenmanager import Screen, ScreenManager, FadeTransition
@@ -20,6 +21,7 @@ from kivy.uix.textinput import TextInput
 from kivy.config import Config
 Config.set('graphics', 'resizable', False)
 from kivymd.theming import ThemeManager
+from kivymd.button import MDRaisedButton
 from kivymd.bottomsheet import MDListBottomSheet
 
 # Local package imports
@@ -30,9 +32,6 @@ url = 'https://hapd-api.herokuapp.com'
 name = ''
 age = ''
 dob = ''
-
-
-
 
 # Class for Launch Screen
 class Launch(Screen):
@@ -105,11 +104,8 @@ class Home(Screen):
             data["current"] = info
             with open('data/p_information.json','w') as p:
                 json.dump(data, p, indent=4)
-       
-
-        
-            
-
+     
+# Class for Who Am I Screen.
 class WhoAmI(Screen):
     def __init__(self, **kwargs):
         super(WhoAmI, self).__init__(**kwargs)
@@ -120,17 +116,23 @@ class WhoAmI(Screen):
         print(data["current"]["name"])
         na.text = "Name: " + str(data["current"]["name"]).capitalize()
         age.text = "Age: " + str(data["current"]["age"])
-        dob.text = "Date of Birth: " + str(data["current"]["dob"])
+        dob.text = "Date of Birth: " + str(data["current"]["dob"])      
         
-        
-
-        
+# Class for the Chat Screen        
+class Chat(Screen):
+    def __init__(self, **kwargs):
+        super(Chat, self).__init__(**kwargs)
+        self.i = 0
+    def addToChatSpace(self, ChatSpace, message):
+        self.i += 1
+        btn = MDRaisedButton(size_hint_y = 0.1, text = str(message), elevation_normal= 2, theme_text_color= 'Secondary', pos_hint = {"center_x": 0.88})
+        ChatSpace.add_widget(btn)
+        return btn
+       
 # Class for the Screen Manager
 class Manager(ScreenManager):
     pass
     
-  
-
 # Class for the main application
 class Main(App):
     theme_cls = ThemeManager()  # without this you'll get an error
@@ -146,7 +148,6 @@ class Main(App):
         bs.add_item("Click on the back button to go to Log In Screen.", lambda x: x,
                     icon='login')
         bs.open()
-
 
 if __name__ == '__main__':
     Main().run()

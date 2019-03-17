@@ -1,39 +1,28 @@
 <WhoAmI>:
     name: 'Who Am I Screen'
     on_pre_enter: root.setFields(na, age, dob)
-    FloatLayout:
+    BoxLayout:
+        orientation: 'vertical'
         Toolbar:
             title: 'Who Am I?'
-            pos_hint: {'top': 1, 'x': 0}
             md_bg_color: get_color_from_hex(colors['DeepPurple']['A400'])
             background_palette: 'DeepPurple'
             background_hue: 'A400'
             left_action_items: [['arrow-left', lambda x: app.setCurrentScreen(app.root, 'Home Screen')]]
 
-        MDCard:
-            size_hint: None, None
-            size:     dp(320), dp(180)
-            pos_hint: {'center_x': 0.5, 'center_y': 0.7}
-            BoxLayout:
-                orientation:'vertical'
-                padding: dp(8)
-                MDLabel:
-                    text: 'Basic Information'
-                    theme_text_color: 'Secondary'
-                    font_style:"Title"
-                    size_hint_y: None
-                    height: dp(36)
-                MDSeparator:
-                    height: dp(1)
-                MDLabel:
+        ScrollView:
+            do_scroll_x: False
+            MDList:
+                id: ml
+                OneLineListItem:
                     id: na
                     text: 'Field not set'
                     theme_text_color: 'Primary'
-                MDLabel:
+                OneLineListItem:
                     id: age
                     text: 'Field not set'
                     theme_text_color: 'Primary'
-                MDLabel:
+                OneLineListItem:
                     id: dob
                     text: 'Field not set'
                     theme_text_color: 'Primary'

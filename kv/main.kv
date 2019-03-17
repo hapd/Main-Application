@@ -8,21 +8,30 @@
 #:import MDNavigationDrawer kivymd.navigationdrawer.MDNavigationDrawer
 #:import NavigationDrawerSubheader kivymd.navigationdrawer.NavigationDrawerSubheader
 #:import MDCard kivymd.card.MDCard
+#:import MDSpinner kivymd.spinner.MDSpinner
+#:import MDList kivymd.list.MDList
 Manager:
     transition: FadeTransition()
     Launch:
+        id: Launch
     SignUp:
+        id: SignUp
     LogIn:
         id: LogIn
     WhoAmI:
         id: WhoAmI
     Home:
         id: Home
+    Chat:
+        id: Chat
 <ImageButton@ButtonBehavior+Image>:
+
 
 #:include kv/launch.kv
 #:include kv/signup.kv
 #:include kv/login.kv
 #:include kv/home.kv
 #:include kv/whoami.kv
+#:include kv/chat.kv
+
 
