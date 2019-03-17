@@ -23,6 +23,7 @@ Config.set('graphics', 'resizable', False)
 from kivymd.theming import ThemeManager
 from kivymd.button import MDRaisedButton
 from kivymd.bottomsheet import MDListBottomSheet
+from kivymd.list import MDList, OneLineListItem
 
 # Local package imports
 from functions.func import validateSignUpForm, sendDataToAPI
@@ -128,7 +129,35 @@ class Chat(Screen):
         btn = MDRaisedButton(size_hint_y = 0.1, text = str(message), elevation_normal= 2, theme_text_color= 'Secondary', pos_hint = {"center_x": 0.88})
         ChatSpace.add_widget(btn)
         return btn
-       
+
+# Class for the Schedule Screen
+class Schedule(Screen):
+    def __init__(self, **kwargs):
+        super(Schedule, self).__init__(**kwargs)
+        self.field_set = 0
+    def setFields(self, ScheduleList, pid):
+        if(self.field_set == 0):
+            data = {
+                "pId": str(pid),
+                "req_type": "read_schedule",
+            }
+            r = sendDataToAPI(data, url, '/schedule')
+            status = r["schedule"]["found"]
+            if(status == "True"):
+                tasks = r["schedule"]["tasks"]
+                print(tasks)
+                keys = list(tasks.keys())
+                for key in keys:
+                    temp = tasks[key].split("-")
+                    s = ""
+                    for i in temp:
+                        s += " "+i 
+                    item = OneLineListItem(text = ("%s by %s")%(s, key), theme_text_color =  'Primary')
+                    ScheduleList.add_widget(item)
+                    self.field_set = 1
+
+
+
 # Class for the Screen Manager
 class Manager(ScreenManager):
     pass

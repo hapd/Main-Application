@@ -1,0 +1,17 @@
+<Schedule>:
+    name: "Schedule Screen"
+    on_pre_enter: root.setFields(ml, app.root.ids.LogIn.fetchPid())
+    BoxLayout:
+        orientation: 'vertical'
+        Toolbar:
+            title: "Schedule"
+            md_bg_color: get_color_from_hex(colors['DeepPurple']['A400'])
+            background_palette: 'DeepPurple'
+            background_hue: 'A400'
+            left_action_items: [['arrow-left', lambda x: app.setCurrentScreen(app.root, 'Home Screen')]]
+
+        ScrollView:
+            do_scroll_x: False
+            MDList:
+                id: ml
+                

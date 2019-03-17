@@ -10,6 +10,7 @@
 #:import MDCard kivymd.card.MDCard
 #:import MDSpinner kivymd.spinner.MDSpinner
 #:import MDList kivymd.list.MDList
+#:import OneLineListItem kivymd.list.OneLineListItem
 Manager:
     transition: FadeTransition()
     Launch:
@@ -24,6 +25,8 @@ Manager:
         id: Home
     Chat:
         id: Chat
+    Schedule:
+        id: Schedule
 <ImageButton@ButtonBehavior+Image>:
 
 
@@ -33,5 +36,6 @@ Manager:
 #:include kv/home.kv
 #:include kv/whoami.kv
 #:include kv/chat.kv
+#:include kv/schedule.kv
 
 
