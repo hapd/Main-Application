@@ -1,4 +1,4 @@
-import datetime, json, requests
+import datetime, json, requests, re, random
 
 # Universal function for sending any data (in dict format) to the API
 def sendDataToAPI(data, url, method):
@@ -64,7 +64,67 @@ def validateSignUpForm(self, name, nurse, dob, pin, mB, fB, contact):
     if(str(nurse) != '' and str(nurse).isnumeric() == False):
         self.nurseE = 200
 
-
-
-     
+# This function matches the rules to the message
+def match_rule(rules,message):
+    possible_fallback_responses = [
+        'I didn\'t get that. Can you say it again?', 
+        'I missed what you said. What was that?', 
+        'Sorry, could you say that again?',
+        'Sorry, can you say that again?',
+        'Can you say that again?',
+        'Sorry, I didn\'t get that. Can you rephrase?',
+        'Sorry, what was that?',
+        'Say that one more time?',
+        'I didn\'t get that. Can you repeat?',
+        'I missed that, say that again?'
+    ]
+    response, phrase=random.choice(possible_fallback_responses), None
+    #iterating over dictionary rules
+    for pattern,responses in rules.items():
+        match=re.search(pattern,message)
+        if match is not None:
+            response=random.choice(responses)
+            if '{0}' in response:
+                phrase=match.group(1)
     
+    return response.format(phrase)
+
+def replace_pronouns(message):
+    message=message.lower()
+    if 'me' in message:
+        new_message=re.sub('me','you',message)
+    if 'my' in message:
+        new_message=re.sub('my','your',message)
+    if 'your' in message:
+        new_message=re.sub('your','my',message)
+    if 'you' in message:
+        new_message=re.sub('you','me',message)
+        
+    return new_message
+
+def respond(message):
+    rules={
+        'hey(.*)': ['Hello there! How are you today?', 'Hey there!'],
+        'how are you?(.*)': ['Wonderful as always, thanks for asking.'],
+        'i want (.*)': ['Should I call the nurse to get {0}?'],
+        'do you remember (.*)': [
+            'Did you think I would forget {0}', 
+            "Why haven't you been able to forget {0}", 
+            'What about {0}',
+            'Yes .. and?'
+        ],
+        'do you think (.*)': ['if {0}? Absolutely.', 'No chance'],
+        'if (.*)': [
+            "Do you really think it's likely that {0}",
+            'Do you wish that {0}','What do you think about {0}',
+            'Really--if {0}'
+        ]
+    }
+    message = message.lower()
+    response=match_rule(rules,message)
+    phrase=match_rule(rules,message)
+    if '{0}' in response:
+        #Replace pronouns in the phrase
+        phrase=replace_pronouns(phrase)
+        response=response.format(phrase)
+    return response

@@ -4,7 +4,7 @@
 
 <Chat>:
     name: 'Chat Screen'
-
+    on_enter: Scroll.scroll_to(root.addToChatSpaceSystem(ChatSpace, "@WELCOME_INTENT"))
     BoxLayout:
         orientation: 'vertical'
         Toolbar:
@@ -37,8 +37,12 @@
                 font_size: 0.4*self.height
 
             MDRaisedButton:
+                md_bg_color: get_color_from_hex(colors['DeepPurple']['700'])
+                background_palette: 'DeepPurple'
+                background_hue: 'A400'
                 on_release:
-                    if(message.text != ''): Scroll.scroll_to(root.addToChatSpace(ChatSpace, message.text))
+                    if(message.text != ''): root.addToChatSpaceUser(ChatSpace, message.text).md_bg_color = get_color_from_hex(colors['Green']['700'])
+                    if(message.text != ''): Scroll.scroll_to(root.addToChatSpaceSystem(ChatSpace, message.text))
                     message.text = ''
                 text: 'Send'
                 size_hint: (0.3, 1)

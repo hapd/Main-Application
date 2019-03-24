@@ -6,7 +6,7 @@ MAJOR PROJECT 2019 - CSE D (203,221,246,249)
 import requests
 import json
 import random
-import datetime
+import datetime, time
 
 # Kivy imports
 import kivy
@@ -14,6 +14,8 @@ from kivy.app import App
 from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.core.window import Window
+from kivymd.color_definitions import colors
+from kivy.utils import get_color_from_hex
 Window.size = (480, 800)
 from kivy.uix.screenmanager import Screen, ScreenManager, FadeTransition
 from kivy.lang import Builder
@@ -23,16 +25,23 @@ Config.set('graphics', 'resizable', False)
 from kivymd.theming import ThemeManager
 from kivymd.button import MDRaisedButton
 from kivymd.bottomsheet import MDListBottomSheet
-from kivymd.list import MDList, OneLineListItem
+from kivymd.list import MDList, TwoLineIconListItem, IRightBodyTouch
+from kivymd.selectioncontrols import MDCheckbox
+
 
 # Local package imports
-from functions.func import validateSignUpForm, sendDataToAPI
+from functions.func import validateSignUpForm, sendDataToAPI, respond
+from functions.emotion import getEmotion
 
 # Global Variables
 url = 'https://hapd-api.herokuapp.com'
 name = ''
 age = ''
 dob = ''
+
+class IconRightSampleWidget(IRightBodyTouch, MDCheckbox):
+    pass
+
 
 # Class for Launch Screen
 class Launch(Screen):
@@ -123,12 +132,29 @@ class WhoAmI(Screen):
 class Chat(Screen):
     def __init__(self, **kwargs):
         super(Chat, self).__init__(**kwargs)
-        self.i = 0
-    def addToChatSpace(self, ChatSpace, message):
-        self.i += 1
-        btn = MDRaisedButton(size_hint_y = 0.1, text = str(message), elevation_normal= 2, theme_text_color= 'Secondary', pos_hint = {"center_x": 0.88})
+        self.i = "a0"
+        self.ptr = 0
+        self.w = False
+    def addToChatSpaceUser(self, ChatSpace, message):
+        print("Sentiment for %s is:"%message, getEmotion(message))
+        btn = MDRaisedButton(id = str(self.i), size_hint_y = 0.1, text = str(message), elevation_normal= 9, pos_hint = {"right": 1})
         ChatSpace.add_widget(btn)
         return btn
+    def addToChatSpaceSystem(self, ChatSpace, message):
+        if(message == "@WELCOME_INTENT"):
+            if(self.w == False):
+                btn = MDRaisedButton(size_hint_y = 0.1, text = "Hello, I am your assistant.", elevation_normal= 9)
+                btn2 = MDRaisedButton(size_hint_y = 0.1, text = "How may I help you?", elevation_normal= 9)
+                ChatSpace.add_widget(btn)
+                ChatSpace.add_widget(btn2)
+                self.w = True
+                return btn2
+        else:
+            res = respond(message)
+            btn = MDRaisedButton(size_hint_y = 0.1, text = res, elevation_normal= 9)
+            ChatSpace.add_widget(btn)
+            return btn
+    
 
 # Class for the Schedule Screen
 class Schedule(Screen):
@@ -151,8 +177,8 @@ class Schedule(Screen):
                     temp = tasks[key].split("-")
                     s = ""
                     for i in temp:
-                        s += " "+i 
-                    item = OneLineListItem(text = ("%s by %s")%(s, key), theme_text_color =  'Primary')
+                        s += (i+" ") 
+                    item = TwoLineIconListItem(text = s, secondary_text = key, theme_text_color =  'Primary', secondary_text_color = 'Errror')
                     ScheduleList.add_widget(item)
                     self.field_set = 1
 
